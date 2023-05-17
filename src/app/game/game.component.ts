@@ -3,6 +3,7 @@ import { OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Game } from 'src/models/game'; //Game importieren, um darauf zuzugreifen
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { GameoverComponent } from '../gameover/gameover.component';
 
 
 
@@ -16,6 +17,7 @@ export class GameComponent implements OnInit{
   pickCardAnimation = false;
   currentCard: string = '';
   game: Game; //eine Variable game vom Typ Game
+  gameOver: boolean = false;
 
   constructor(public dialog: MatDialog) {}
 
@@ -31,28 +33,33 @@ export class GameComponent implements OnInit{
 
 
   takeCard() {
+    if (this.game.players.length < 2) {
+      this.openDialog();
+      return;
+    }
+    
     if (this.pickCardAnimation == false) {
-    this.currentCard = this.game.stack.pop(); //pop -> man bekommt den letzten Wert aus dem array und gleichzeitig wird es aus dem array entfernt
-    this.pickCardAnimation = true;
-    this.game.currentPlayer++;
-    this.game.currentPlayer = this.game.currentPlayer % this.game.players.length ;
-    setTimeout(() => {
-      this.pickCardAnimation = false;
-      this.game.playedCards.push(this.currentCard);
-    }, 1500);
-  }
+      this.currentCard = this.game.stack.pop(); //pop -> man bekommt den letzten Wert aus dem array und gleichzeitig wird es aus dem array entfernt
+      this.pickCardAnimation = true;
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length ;
+      setTimeout(() => {
+        this.pickCardAnimation = false;
+        this.game.playedCards.push(this.currentCard);
+      }, 1500);
+    }
   }
 
-
+ 
+  
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-
+  
     dialogRef.afterClosed().subscribe((name:string) => {
       if (name) {
         this.game.players.push(name);
       }
     });
   }
-
-
 }
+

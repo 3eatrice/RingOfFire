@@ -10,4 +10,5 @@ export class PlayerComponent {
 
   @Input() name;
   @Input() playerActive: boolean = false;
+  @Input() color;
 }

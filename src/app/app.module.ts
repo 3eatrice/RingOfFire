@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
+import { GameoverComponent } from './gameover/gameover.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {MatCardModule} from '@angular/material/card';
     PlayerComponent,
     DialogAddPlayerComponent,
     GameInfoComponent,
+    GameoverComponent,
   ],
   imports: [
     BrowserModule,
