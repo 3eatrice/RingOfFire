@@ -1,8 +1,5 @@
-<!--Komponente Game bindet die Komponente Player ein-->
-<!--Variable "name" reingeben, Variable "name" an diese Unterkomponente übergeben-->
-<!--wenn i == game.currentPlayer, dann ist playerActive true-->
 <div class="allPlayers">
-  <app-player class="positionRelative" [ngStyle]="{'top.px': 50 + i*20}" *ngFor="let player of game.players; let i = index;" [name]="player" [playerActive]="i == game.currentPlayer">
+  <app-player (click)="editPlayer(i)" class="positionRelative" [ngStyle]="{'top.px': 50 + i*20}" *ngFor="let player of game.players; let i = index;" [name]="player" [playerActive]="i == game.currentPlayer">
   </app-player>
 </div>
 
@@ -10,21 +7,17 @@
 <div class="board">
 
   <div class="deckOfCards">
-    <!--4x das Bild hinzufügen, beim 1. Bild ist i = 0, beim 2. Bild ist i = 1 usw.-->
     <img [ngStyle]="{'rotate.deg': i*2}" *ngFor="let card of [0,1,2,3]; let i = index;" src="assets/img/cards/card_cover.png">
-    <!--oberste Karte-->
     <img (click)="takeCard()" class="topCard" style="rotate: 8deg" src="assets/img/cards/card_cover.png">
-    <!--played Cards-->
     <img class="playedCard" *ngFor="let card of game.playedCards" src="assets/img/cards/{{ card }}.png">
-    <!--wenn pickCardAnimation = true, dann zeige das Bild an-->
-    <img class="pickCard" *ngIf="pickCardAnimation" style="rotate: 8deg" src="assets/img/cards/{{ currentCard }}.png">
+    <img class="pickCard" *ngIf="game.pickCardAnimation" style="rotate: 8deg" src="assets/img/cards/{{ game.currentCard }}.png">
   </div>
   
 </div>
 
-<button class="buttonAdd" mat-fab color="warn" (click)="openDialog()">
+<button class="buttonAdd" mat-fab color="warn" (click)="openDialog()" [disabled]="this.game.gameOver">
   <mat-icon>add</mat-icon>
 </button>
 
-<app-game-info [card]="currentCard"></app-game-info>
+<app-game-info [card]="game.currentCard"></app-game-info>
 <app-gameover *ngIf="this.game.gameOver"></app-gameover>

@@ -1,10 +1,13 @@
 export class Game {
   public players: string[] = [];
-  public stack: string[] = []; //ungespielte Karten
+  public colors: string[] = [];
+  public stack: string[] = [];
   public playedCards: string[] = [];
   public currentPlayer: number = 0;
+  public pickCardAnimation = false;
+  public currentCard: string = '';
   public gameOver = false;
-  pickCardAnimation: boolean;
+
 
   constructor() {
     for (let i = 1; i < 14; i++) {
@@ -15,27 +18,30 @@ export class Game {
     }
     shuffle(this.stack);
   }
-  //constructor ist eine Funktion wird immer am Anfang aufgerufen
-  //in dieser Funktion kann man gewisse Logik aufrufen
+
+
+  public toJson() {
+    return {
+      players: this.players,
+      colors: this.colors,
+      stack: this.stack,
+      playedCards: this.playedCards,
+      currentPlayer: this.currentPlayer,
+      pickCardAnimation: this.pickCardAnimation,
+      currentCard: this.currentCard,
+      gameOver: this.gameOver
+    };
+  }
 }
-//alle Felder die wir verwenden wollen
-//public, damit man von überall darauf zugreifen kann
 
 
 function shuffle(array) {
   let currentIndex = array.length,  randomIndex;
-
-  // While there remain elements to shuffle.
   while (currentIndex != 0) {
-
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
-
   return array;
 }
